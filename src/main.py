@@ -56,28 +56,28 @@ def get_model(model_name: str) -> JSONResponse:
     return models
 
 
-@app.get('/models/{model_name}/activate')
+@app.get('/models/activate/{model_name}/activate')
 def activate_model(model_name: str) -> JSONResponse:
     response: requests.Response = requests.get(f"{ENV_VARS['ML_API_URL']}/models/activate/{model_name}")
     result: dict = response.json()
     return result
 
 
-@app.get('/models/{model_name}/deactivate')
+@app.get('/models/deactivate/{model_name}')
 def deactivate_model(model_name: str) -> JSONResponse:
     response: requests.Response = requests.get(f"{ENV_VARS['ML_API_URL']}/models/deactivate/{model_name}")
     result: dict = response.json()
     return result
 
 
-@app.post('/models/{model_name}/predict')
+@app.post('/models/predict/{model_name}')
 def predict(model_name: str, flow: NetworkFlow) -> JSONResponse:
     response: requests.Response = requests.post(f"{ENV_VARS['ML_API_URL']}/models/predict/{model_name}", data=json.dumps(flow.dict()))
     result: dict = response.json()
     return result
 
 
-@app.delete('/models/{model_name}/delete')
+@app.delete('/models/delete/{model_name}')
 def delete_model(model_name: str) -> JSONResponse:
     response: requests.Response = requests.delete(f"{ENV_VARS['ML_API_URL']}/models/delete/{model_name}")
     result: dict = response.json()
