@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, HTTPException
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -76,12 +76,24 @@ def predict(model_name: str, flow: NetworkFlow) -> JSONResponse:
     result: dict = response.json()
     return result
 
+
+@app.delete('/models/{model_name}/delete')
+def delete_model(model_name: str) -> JSONResponse:
+    response: requests.Response = requests.delete(f"{ENV_VARS['ML_API_URL']}/models/delete/{model_name}")
+    result: dict = response.json()
+    return result
+
+
+@app.post('/models/upload')
+def upload_model(file: UploadFile) -> JSONResponse:
+    files: dict = {'upload_file': (file.filename, file.file, file.content_type)}
+    response: requests.Response = requests.post(f"{ENV_VARS['ML_API_URL']}/models/{file.filename}/upload", files=files)
+    result: dict = response.json()
+    return result
+
+
 """ DB_API """
-'''
-1. Get flows
-2. Get flow
-3. Update flow
-'''
+
 
 @app.get('/network_flows')
 def get_flows() -> List[NetworkFlow]:
