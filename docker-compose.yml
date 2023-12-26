@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  packetbase:
+  api_gateway:
     image: packetbase/api-gateway:latest
     build: .
     hostname: api-gateway

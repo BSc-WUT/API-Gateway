@@ -98,7 +98,7 @@ def upload_model(file: UploadFile) -> JSONResponse:
 @app.get('/network_flows')
 def get_flows() -> List[NetworkFlow]:
     response: requests.Response = requests.get(f"{ENV_VARS['DB_API_URL']}/network_flows")
-    flows: List[NetworkFlow] = [hit.get('_source', {}) for hit in response.json().get('hits', {}).get('hits', [])]
+    flows: List[NetworkFlow] = [dict({'id': hit.get('_id')}, **hit.get('_source', {})) for hit in response.json().get('hits', {}).get('hits', [])]
     return flows
 
 

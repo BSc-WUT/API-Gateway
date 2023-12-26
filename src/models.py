@@ -32,6 +32,7 @@ class ModelShort(BaseModel):
 
 
 class NetworkFlow(BaseModel):
+    id: str
     protocol: float
     flow_duration: float
     flow_byts_s: float
